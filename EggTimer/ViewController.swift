@@ -8,9 +8,12 @@
 
 import UIKit
 
+import AVFoundation
+
 class ViewController: UIViewController {
-    
-    let timeDict : [String : Int] = ["Soft" : 5 ,"Medium" : 8 ,"Hard" : 12 ]
+    var player : AVAudioPlayer!
+
+    let timeDict : [String : Int] = ["Soft" : 5 *60 ,"Medium" : 8 * 60,"Hard" : 12 * 60]
     
     var timer = Timer()
 
@@ -20,6 +23,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     
     @IBAction func EggPressed(_ sender: UIButton) {
+
         timer.invalidate()
         self.headerLabel.text = "In Progress"
         self.progressBar.setProgress(0 , animated: true)
@@ -36,6 +40,10 @@ class ViewController: UIViewController {
                 timer.invalidate()
                 self.headerLabel.text = "Done"
                 self.progressBar.setProgress(1, animated: true)
+                let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
+                self.player = try! AVAudioPlayer(contentsOf: url!)
+                self.player.play()
+
 
             }
        
